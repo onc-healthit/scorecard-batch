@@ -1,0 +1,5 @@
+<Context reloadable="true">
+    <Parameter name="scorecardBatch.ccdaFileLocation" value="/var/opt/scorecard/ccdaFiles" override="true"/>
+	<Parameter name="scorecardBatch.outputFolderLocation" value="/var/opt/scorecard/outputFiles" override="true"/>
+	<Parameter name="scorecardBatch.scorecardUrl" value="https://devccda.sitenv.org/scorecard/ccdascorecardservice2" override="true"/>
+</Context>
