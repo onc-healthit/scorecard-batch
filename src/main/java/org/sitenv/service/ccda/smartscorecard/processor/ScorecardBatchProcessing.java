@@ -54,13 +54,15 @@ public class ScorecardBatchProcessing {
 	private GeneratePDfFromJson generatePDfFromJSon;
 
 	@PostConstruct
-	public void processCCdaFiles() {
+	public void processCCdaFiles() throws IOException {
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		ResponseTO scorecardResponse=null;
 		String scorecardUrl;
 		List<UnprocessedFile> unprocessedFileList = new ArrayList<UnprocessedFile>();
 		UnprocessedFile unprocessedFile = null;
+		File tempFile=null;
+		FileOutputStream out=null;
 		try {
 			File directory = loadDirectory(scorecardBatchConfig.getCcdaFileLocation());
 			File[] list = directory.listFiles();
@@ -77,8 +79,8 @@ public class ScorecardBatchProcessing {
 			for (File ccdaFile : list) {
 				logger.info("Processing CCDAFile : " + ccdaFile.getName());
 				LinkedMultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<String, Object>();
-				File tempFile = File.createTempFile(FilenameUtils.getBaseName(ccdaFile.getName()), ".".concat(FilenameUtils.getExtension(ccdaFile.getName())));
-				FileOutputStream out = new FileOutputStream(tempFile);
+				tempFile= File.createTempFile(FilenameUtils.getBaseName(ccdaFile.getName()), ".".concat(FilenameUtils.getExtension(ccdaFile.getName())));
+				out= new FileOutputStream(tempFile);
 				IOUtils.copy(new FileInputStream(ccdaFile), out);
 				requestMap.add("ccdaFile", new FileSystemResource(tempFile));
 
@@ -140,6 +142,11 @@ public class ScorecardBatchProcessing {
 			logger.info("************Scorecard Batch Execution Completed***********************" );
 		} catch (IOException ioe) {
 			logger.error(ioe.getLocalizedMessage(),ioe);
+		}finally{
+			if(out!= null)
+			{
+				out.close();
+			}
 		}
 	}
 	
