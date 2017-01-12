@@ -98,7 +98,7 @@ public class ScorecardBatchProcessing {
 				try
 				{
 					scorecardResponse = restTemplate.postForObject(scorecardUrl,requestEntity, ResponseTO.class);
-					if(scorecardResponse.isSuccess())
+					if(scorecardResponse!= null && scorecardResponse.isSuccess())
 					{
 						scorecardResponse.setFilename(ccdaFile.getName());
 						FileUtils.writeStringToFile(new File(scorecardBatchConfig.getScorecardOutputFolder().concat(getOutputFileName(ccdaFile.getName(),FileExtensions.jsonFileExtension))), 
