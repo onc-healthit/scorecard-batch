@@ -66,7 +66,7 @@ public class ScorecardBatchProcessing {
 		try {
 			File directory = loadDirectory(scorecardBatchConfig.getCcdaFileLocation());
 			File[] list = directory.listFiles();
-			if(list.length == 0)
+			if(list == null || list.length == 0)
 			{
 				logger.info("No files to process in given CCDAFileLocation : " + scorecardBatchConfig.getCcdaFileLocation());
 				return;
